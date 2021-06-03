@@ -1,0 +1,77 @@
+﻿@model RAQ_Store.ViewModels.ProductCategory
+
+@{
+    ViewBag.Title = "Home";
+}
+
+<!-- Page Content -->
+
+@using (Html.BeginForm("ViewProduct", "Products", FormMethod.Post))
+{
+    @Html.AntiForgeryToken()
+    <div class="form-group" style="margin-top: 10px;">
+        <div class="input-group align-items-baseline">
+        
+            <button class="btn btn-outline-warning" type="submit" style="margin-left: 10px;margin-right: 10px;width: 106px;height: 35px;">Filter</button>
+            
+            @Html.DropDownList("ID", new SelectList(Model.Category, "Id", "Name"), "Select Category", new { @class = "form-control " })
+
+            @Html.ActionLink("Add Product", "AddProduct", null, new { @class = "filled-button",
+           @style = "margin-left:10px;margin-right:10px;padding-top: 10px;padding-bottom: 6px;padding-right: 12px;padding-left: 12px;" })
+        </div>
+    </div>
+}
+
+<hr style="margin-top: 5px;">
+
+<div class="latest-products col-12">
+    
+        <div style="padding:5px;" class="row">
+
+            @foreach (var item in Model.Product)
+            {
+
+                <div class="col-lg-2 col-md-4 cols-sm-6">
+                    <div class="product-item">
+                        <a href="#"><img class="card-img" src="~/Images/@item.image" alt="" height="200"></a>
+                        <div class="down-content">
+                            <a href="#"><h4 >@Html.DisplayFor(modelItem => item.name)</h4></a>
+                            <h6 style="position: initial;">$@Html.DisplayFor(modelItem => item.price)</h6>
+                            <p style="white-space: nowrap;overflow: hidden;text-overflow: ellipsis;">@item.description</p>
+                            
+                            <ul class="stars">
+                                <li><i class="fa fa-star"></i></li>
+                                <li><i class="fa fa-star"></i></li>
+                                <li><i class="fa fa-star"></i></li>
+                                <li><i class="fa fa-star"></i></li>
+                                <li><i class="fa fa-star"></i></li>
+                            </ul>
+
+                            @Html.ActionLink("More Details", "Details", new { id = item.id }, new { @class = "filled-button", @style = " margin-bottom:10px;padding:10px" })
+                            @Html.ActionLink("Add To Cart", "AddCart", new { id = item.id, time = @DateTime.Now }, new { @class = "filled-button" })
+
+                        </div>
+                    </div>
+                </div>
+            }
+        </div>
+    
+</div>
+
+
+
+                <!--
+                <div style="width:200px; margin:45px;border: 1px solid #ddd;" class="card col-md-3">
+                    <img src="~/Images/item.image" class="img-thumbnail" style="border: none;">
+                    <div class="card-body">
+                        <h5 class="card-title"></h5>
+
+                        <p class="card-text"> </p>
+
+
+                    </div>
+                </div>-->
+            
+
+        
+

@@ -1,0 +1,65 @@
+﻿@model RAQ_Store.ViewModels.ProductCategory
+
+@{
+    ViewBag.Title = "Cart";
+    Layout = null;
+
+}
+
+@foreach (var item in Model.Product)
+{
+    foreach (var car in Model.cart)
+    {
+        if (item.id == car.product_id)
+        {
+    <div class="card">
+        <div class="card-body">
+            <div class="form-group">
+                <div class="input-group">
+
+                    <span type="button" class="btn input-group-addon">@Html.ActionLink("Remove", "RemoveCart", new { id = car.product_id ,time = car.added_at })</span>
+                    
+                    <p class="card-text">
+                        @Html.DisplayFor(modelItem => item.name) -$@Html.DisplayFor(modelItem => item.price)
+                    </p>
+
+                    <p>
+                        -
+                        @if ((DateTime.Now - car.added_at).TotalMinutes < 1)
+                        {
+                            // Zero seconds, hopefully that DateTime.Now object
+                            @: <i>just now</i>.
+                        }
+                        else if ((DateTime.Now - car.added_at).TotalMinutes > 0 && (DateTime.Now - car.added_at).TotalMinutes < 60)
+                        {
+                            // Seconds are greater than zero but less than 61 (minute)
+                            @:@(Convert.ToInt16((DateTime.Now - car.added_at).TotalMinutes)) Minutes ago.
+                        }
+                        else if ((DateTime.Now - car.added_at).TotalHours > 0 && (DateTime.Now - car.added_at).TotalHours < 24)
+                        {
+                            // seconds are greater than minute but less than hour
+                            @:@(Convert.ToInt16((DateTime.Now - car.added_at).TotalHours)) Hours ago.
+                        }
+                        else if ((DateTime.Now - car.added_at).TotalDays > 0 && (DateTime.Now - car.added_at).TotalDays < 30)
+                        {
+                            @:@(Convert.ToInt16((DateTime.Now - car.added_at).TotalDays)) Days ago.
+                        }
+                        else if ((DateTime.Now - car.added_at).TotalDays > 30 && (DateTime.Now - car.added_at).TotalDays < 365)
+                        {
+                            @:@(Convert.ToInt16((DateTime.Now - car.added_at).TotalDays / 30)) Months ago.
+                        }
+                        else
+                        {
+                            @:more than year ago.
+                        }
+                </div>
+            </div>
+        </div>
+    </div>
+            <hr />
+        }
+    }
+}
+
+
+
